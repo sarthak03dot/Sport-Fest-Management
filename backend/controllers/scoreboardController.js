@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Match = require("../models/Match");
 
 // @desc Update match score
-// @route PUT /api/scoreboard/:id
+//   PUT /api/scoreboard/:id
 const updateMatchScore = asyncHandler(async (req, res) => {
     const { team1Score, team2Score } = req.body;
     const match = await Match.findById(req.params.id);
@@ -29,7 +29,7 @@ const updateMatchScore = asyncHandler(async (req, res) => {
 });
 
 // @desc Get match scores
-// @route GET /api/scoreboard
+//   GET /api/scoreboard
 const getScoreboard = asyncHandler(async (req, res) => {
     const matches = await Match.find()
         .populate("event", "name")

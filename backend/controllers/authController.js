@@ -9,7 +9,7 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };
 
-//@route Post /api/auth/register
+//  Post /api/auth/register
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -38,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-//@route Post /api/auth/login
+//  Post /api/auth/login
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;

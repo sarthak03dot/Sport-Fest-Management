@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Notification = require("../models/Notification");
 
 // @desc Send notification to a user
-// @route POST /api/notifications
+//   POST /api/notifications
 const sendNotification = asyncHandler(async (req, res) => {
     const { userId, message } = req.body;
 
@@ -13,14 +13,14 @@ const sendNotification = asyncHandler(async (req, res) => {
 });
 
 // @desc Get notifications for logged-in user
-// @route GET /api/notifications
+//   GET /api/notifications
 const getUserNotifications = asyncHandler(async (req, res) => {
     const notifications = await Notification.find({ user: req.user._id }).sort({ createdAt: -1 });
     res.json(notifications);
 });
 
 // @desc Mark notification as read
-// @route PUT /api/notifications/:id
+//   PUT /api/notifications/:id
 const markAsRead = asyncHandler(async (req, res) => {
     const notification = await Notification.findById(req.params.id);
 

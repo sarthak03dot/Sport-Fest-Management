@@ -3,6 +3,7 @@ const Registration = require("../models/Registration");
 const Event = require("../models/Event");
 const { sendConfirmationEmail } = require("../utils/emailService");
 const router = express.Router();
+
 // Get all registrations for the logged-in user
 router.get("/", async (req, res) => {
   try {

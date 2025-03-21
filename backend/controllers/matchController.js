@@ -4,7 +4,7 @@ const Event = require("../models/Event");
 const Team = require("../models/Team");
 
 // @desc Schedule a match
-// @route POST /api/matches
+//   POST /api/matches
 const scheduleMatch = asyncHandler(async (req, res) => {
     const { eventId, team1Id, team2Id, date, location } = req.body;
 
@@ -40,14 +40,14 @@ const scheduleMatch = asyncHandler(async (req, res) => {
 });
 
 // @desc Get all matches
-// @route GET /api/matches
+//   GET /api/matches
 const getMatches = asyncHandler(async (req, res) => {
     const matches = await Match.find().populate("event", "name").populate("team1 team2", "name");
     res.json(matches);
 });
 
 // @desc Declare match winner
-// @route PUT /api/matches/:id
+//   PUT /api/matches/:id
 const declareWinner = asyncHandler(async (req, res) => {
     const match = await Match.findById(req.params.id);
 

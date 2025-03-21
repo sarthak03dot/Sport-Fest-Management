@@ -11,7 +11,7 @@ import Matches from "./pages/Matches";
 import Leaderboard from "./pages/Leaderboard";
 import PlayerDashboard from "./pages/PlayerDashboard";
 import PrivateRoute from "./components/PrivateRoute";
-import Dashboard from "./pages/Dashboard"; // Uncomment this if you have a Dashboard page
+import Dashboard from "./pages/Dashboard"; 
 import AdminDashboard from "./pages/AdminDashboard";
 import ManageEvents from "./pages/ManageEvents";
 import ManageTeams from "./pages/ManageTeams";
@@ -32,6 +32,7 @@ function App() {
         <div className="container">
           <Routes>
             <Route path="/live-scores" element={<LiveScores />} />
+            {/* <Route path="/" element={<Login />} /> */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/events" element={<Events />} />
@@ -75,6 +76,7 @@ function App() {
                 </PrivateRoute>
               }
             />
+            {/* DONE */}
             <Route
               path="/admin/events"
               element={

@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Event = require("../models/Event");
 
-// @route POST /api/events
+//   POST /api/events
 const createEvent = asyncHandler(async (req, res) => {
     const { name, description, date, location, maxParticipants } = req.body;
 
@@ -17,13 +17,13 @@ const createEvent = asyncHandler(async (req, res) => {
     res.status(201).json(createdEvent);
 });
 
-// @route GET /api/events
+//   GET /api/events
 const getEvents = asyncHandler(async (req, res) => {
     const events = await Event.find();
     res.json(events);
 });
 
-// @route GET /api/events/:id
+//   GET /api/events/:id
 const getEventById = asyncHandler(async (req, res) => {
     const event = await Event.findById(req.params.id);
 
@@ -35,7 +35,7 @@ const getEventById = asyncHandler(async (req, res) => {
     }
 });
 
-// @route PUT /api/events/:id
+//   PUT /api/events/:id
 const updateEvent = asyncHandler(async (req, res) => {
     const event = await Event.findById(req.params.id);
 
@@ -54,17 +54,18 @@ const updateEvent = asyncHandler(async (req, res) => {
     }
 });
 
-// @route DELETE /api/events/:id
+//   DELETE /api/events/:id
 const deleteEvent = asyncHandler(async (req, res) => {
     const event = await Event.findById(req.params.id);
 
     if (event) {
-        await event.remove();
+        await Event.deleteOne({ _id: event._id });
         res.json({ message: "Event removed" });
     } else {
         res.status(404);
         throw new Error("Event not found");
     }
 });
+
 
 module.exports = { createEvent, getEvents, getEventById, updateEvent, deleteEvent };

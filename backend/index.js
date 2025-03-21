@@ -37,7 +37,7 @@ io.on("connection", (socket) => {
   console.log("A user connected");
 
   socket.on("updateScore", (data) => {
-    io.emit("scoreUpdated", data); // Broadcast the updated score
+    io.emit("scoreUpdated", data); 
   });
 
   socket.on("disconnect", () => {
@@ -50,7 +50,7 @@ app.use("/api/events", eventRoutes);
 app.use("/api/teams", teamRoutes);
 app.use("/api/event-registrations", eventRegistrationRoutes);
 app.use("/api/matches", matchRoutes);
-// app.use("/api/scoreboard", scoreboardRoutes);
+app.use("/api/scoreboard", scoreboardRoutes);
 app.use("/api/leaderboard", leaderboardRoutes);
 app.use("/api/admin", adminDashboardRoutes);
 app.use("/api/notifications", notificationRoutes);

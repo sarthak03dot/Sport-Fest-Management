@@ -61,7 +61,7 @@ function ManageRegistrations() {
 
     const fetchRegistrations = async () => {
         try {
-            const { data } = await axios.get("http://localhost:5000/api/registrations");
+            const { data } = await axios.get("http://localhost:5000/api/event-registrations/");
             setRegistrations(data);
         } catch (error) {
             toast.error("Error fetching registrations.");

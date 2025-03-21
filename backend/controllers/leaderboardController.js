@@ -3,7 +3,7 @@ const Match = require("../models/Match");
 const Team = require("../models/Team");
 
 // @desc Get leaderboard
-// @route GET /api/leaderboard
+//   GET /api/leaderboard
 const getLeaderboard = asyncHandler(async (req, res) => {
     const teams = await Team.find();
 

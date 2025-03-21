@@ -57,15 +57,13 @@
 
 // export default ManageTeams;
 
-
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 function ManageTeams() {
     const [teams, setTeams] = useState([]);
-    const [teamName, setTeamName] = useState("");
+    const [newTeam, setNewTeam] = useState({ teamName: "", eventId: "", maxPlayers: "" });
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -85,23 +83,27 @@ function ManageTeams() {
 
     const handleAddTeam = async (e) => {
         e.preventDefault();
-        if (!teamName.trim()) {
-            toast.warning("Team name cannot be empty.");
+        if (!newTeam.teamName.trim() || !newTeam.eventId.trim() || !newTeam.maxPlayers.trim()) {
+            toast.warning("All fields are required.");
             return;
         }
+
         try {
-            await axios.post("http://localhost:5000/api/teams", { name: teamName });
+            await axios.post("http://localhost:5000/api/teams", {
+                name: newTeam.teamName,
+                eventId: newTeam.eventId,
+                maxPlayers: newTeam.maxPlayers,
+            });
             toast.success("Team added successfully!");
             fetchTeams();
-            setTeamName("");
+            setNewTeam({ teamName: "", eventId: "", maxPlayers: "" });
         } catch (error) {
-            toast.error("Error adding team.");
+            toast.error(error.response?.data?.message || "Error adding team.");
         }
     };
 
     const handleDelete = async (id) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this team?");
-        if (!confirmDelete) return;
+        if (!window.confirm("Are you sure you want to delete this team?")) return;
 
         try {
             await axios.delete(`http://localhost:5000/api/teams/${id}`);
@@ -117,16 +119,42 @@ function ManageTeams() {
             <h2 className="mb-4">Manage Teams</h2>
 
             {/* Add Team Form */}
-            <form onSubmit={handleAddTeam} className="mb-4 d-flex gap-2">
-                <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Team Name"
-                    value={teamName}
-                    onChange={(e) => setTeamName(e.target.value)}
-                    required
-                />
-                <button type="submit" className="btn btn-primary">Add Team</button>
+            <form onSubmit={handleAddTeam} className="mb-4">
+                <div className="row g-2">
+                    <div className="col-md-4">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter Team Name"
+                            value={newTeam.teamName}
+                            onChange={(e) => setNewTeam({ ...newTeam, teamName: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="col-md-4">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter Event ID"
+                            value={newTeam.eventId}
+                            onChange={(e) => setNewTeam({ ...newTeam, eventId: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="col-md-2">
+                        <input
+                            type="number"
+                            className="form-control"
+                            placeholder="Max Players"
+                            value={newTeam.maxPlayers}
+                            onChange={(e) => setNewTeam({ ...newTeam, maxPlayers: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="col-md-2">
+                        <button type="submit" className="btn btn-primary w-100">Add Team</button>
+                    </div>
+                </div>
             </form>
 
             {/* Display Loading Message */}
@@ -137,6 +165,8 @@ function ManageTeams() {
                     <thead className="table-dark">
                         <tr>
                             <th>Team Name</th>
+                            <th>Event ID</th>
+                            <th>Max Players</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -145,6 +175,8 @@ function ManageTeams() {
                             teams.map((team) => (
                                 <tr key={team._id}>
                                     <td>{team.name}</td>
+                                    <td>{team.event}</td>
+                                    <td>{team.maxPlayers}</td>
                                     <td>
                                         <button onClick={() => handleDelete(team._id)} className="btn btn-danger btn-sm">
                                             Delete
@@ -154,7 +186,7 @@ function ManageTeams() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="2" className="text-center">No teams available.</td>
+                                <td colSpan="4" className="text-center">No teams available.</td>
                             </tr>
                         )}
                     </tbody>

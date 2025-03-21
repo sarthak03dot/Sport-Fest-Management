@@ -72,7 +72,7 @@ import { toast } from "react-toastify";
 
 function ManageEvents() {
     const [events, setEvents] = useState([]);
-    const [newEvent, setNewEvent] = useState({ name: "", description: "", date: "" });
+    const [newEvent, setNewEvent] = useState({ name: "", description: "", date: "", location: "", maxParticipants: "" });
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -96,12 +96,23 @@ function ManageEvents() {
         }
 
         setLoading(true);
+        // try {
+        //     await axios.post("http://localhost:5000/api/events", newEvent);
+        //     toast.success("Event added successfully!");
+        //     fetchEvents();
+        //     setNewEvent({ name: "", description: "", date: "" });
+        // } catch (error) {
+        //     toast.error("Error adding event.");
+        // } finally {
+        //     setLoading(false);
+        // }
         try {
             await axios.post("http://localhost:5000/api/events", newEvent);
             toast.success("Event added successfully!");
             fetchEvents();
-            setNewEvent({ name: "", description: "", date: "" });
+            setNewEvent({ name: "", description: "", date: "", location: "", maxParticipants: "" });
         } catch (error) {
+            console.error("Error adding event:", error);
             toast.error("Error adding event.");
         } finally {
             setLoading(false);
@@ -161,6 +172,29 @@ function ManageEvents() {
                     />
                 </div>
 
+                <div className="mb-3">
+                    <label className="form-label">Location</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter location"
+                        value={newEvent.location}
+                        onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Max. Participants</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter Max Participants"
+                        value={newEvent.maxParticipants}
+                        onChange={(e) => setNewEvent({ ...newEvent, maxParticipants: e.target.value })}
+                        required
+                    />
+                </div>
+
                 <button type="submit" className="btn btn-primary" disabled={loading}>
                     {loading ? "Adding..." : "Add Event"}
                 </button>
@@ -172,6 +206,8 @@ function ManageEvents() {
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
+                        <th>Location</th>
+                        <th>Max Participants</th>
                         <th>Date</th>
                         <th>Actions</th>
                     </tr>
@@ -182,6 +218,8 @@ function ManageEvents() {
                             <tr key={event._id}>
                                 <td>{event.name}</td>
                                 <td>{event.description}</td>
+                                <td>{event.location}</td>
+                                <td>{event.maxParticipants}</td>
                                 <td>{new Date(event.date).toLocaleDateString()}</td>
                                 <td>
                                     <button className="btn btn-danger btn-sm" onClick={() => handleDelete(event._id)}>

@@ -2,8 +2,7 @@ const asyncHandler = require("express-async-handler");
 const EventRegistration = require("../models/EventRegistration");
 const Event = require("../models/Event");
 
-// @desc Register for an event
-// @route POST /api/event-registrations
+//   POST /api/event-registrations
 const registerForEvent = asyncHandler(async (req, res) => {
     const { eventId } = req.body;
 
@@ -25,8 +24,7 @@ const registerForEvent = asyncHandler(async (req, res) => {
     res.status(201).json({ message: "Successfully registered for event" });
 });
 
-// @desc Get all registrations for an event
-// @route GET /api/event-registrations/:eventId
+//   GET /api/event-registrations/:eventId
 const getEventRegistrations = asyncHandler(async (req, res) => {
     const registrations = await EventRegistration.find({ event: req.params.eventId }).populate("user", "name email");
     res.json(registrations);
